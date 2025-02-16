@@ -1,0 +1,3 @@
+43087452,Simon de la fuente,15/02/2025
+COMUN,43087452,simon de la fuente,2025-02-15,10000.0
+COMUN,111,dsad,200,10000.0
