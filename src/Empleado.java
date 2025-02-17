@@ -37,9 +37,8 @@ public class Empleado {
         Socio nuevoSocio;
 
         if (tipoSocio == 1) {
-            System.out.println("Ingrese el porcentaje de beneficio (ej: 10 para 10%):");
-            float beneficio = scanner.nextFloat();
-            nuevoSocio = new SocioVitalicio(nombre, fechaInscripcion, nroDNI, beneficio);
+
+            nuevoSocio = new SocioVitalicio(nombre, fechaInscripcion, nroDNI);
         } else if (tipoSocio == 2) {
             System.out.println("El socio es menor? (1 - Sí, 2 - No):");
             int esMenor = scanner.nextInt();
@@ -96,7 +95,7 @@ public class Empleado {
 
                 if (tipo.equals("VITALICIO")) {
                     float beneficio = Float.parseFloat(datos[4]);
-                    socios.add(new SocioVitalicio(nombre, fechaInscripcion, nroDNI, beneficio));
+                    socios.add(new SocioVitalicio(nombre, fechaInscripcion, nroDNI));
                 } else if (tipo.equals("COMUN")) {
                     float cuota = Float.parseFloat(datos[4]);
                     socios.add(new SocioComun(nombre, fechaInscripcion, nroDNI, cuota));
@@ -127,10 +126,7 @@ public class Empleado {
         System.out.println("Ingrese el DNI del socio: ");
         String dni = scanner.nextLine();
 
-        Socio socio = socios.stream()
-                .filter(s -> s.getNroDNI().equals(dni))
-                .findFirst()
-                .orElse(null);
+        Socio socio = socios.stream().filter(s -> s.getNroDNI().equals(dni)).findFirst().orElse(null);
 
         if (socio == null) {
             System.out.println("No se encontró un socio con ese DNI.");
@@ -165,12 +161,59 @@ public class Empleado {
         String hora = scanner.nextLine();
         System.out.println("Ingrese la cantidad de socios que asistirán: ");
         int cantSocios = scanner.nextInt();
+        scanner.nextLine();
 
         Reserva reserva = new Reserva(socio, instalacionesSeleccionadas, fecha, hora, 0, cantSocios);
         double precioTotal = reserva.calcularPrecioTotal();
 
-        System.out.println("Reserva creada con éxito. Precio total: " + precioTotal);
+        System.out.println("Reserva creada con éxito. Precio total: " + String.format("%.2f", precioTotal));
+
+        guardarReservaEnArchivo(reserva);
     }
+
+    private void guardarReservaEnArchivo(Reserva reserva) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("reservas.txt", true))) {
+            StringBuilder sb = new StringBuilder();
+            sb.append(reserva.getSocio().getNroDNI()).append(",");
+            sb.append(reserva.getFecha()).append(",");
+            sb.append(reserva.getHora()).append(",");
+
+            for (Instalacion inst : reserva.getInstalaciones()) {
+                sb.append(inst.getNombre()).append(" (" ).append(inst.getPrecio()).append("),");
+            }
+
+            sb.append(String.format("%.2f", reserva.calcularPrecioTotal()));
+
+            writer.write(sb.toString());
+            writer.newLine();
+
+        } catch (IOException e) {
+            System.out.println("Error al guardar la reserva en el archivo: " + e.getMessage());
+        }
+    }
+
+    public List<Reserva> cargarReservaDesdeArchivos throws IOException{
+        List<Reserva> reservas = new ArrayList<>();
+        File archivo = new File("reservas.txt");
+
+        if (!archivo.exists()){
+            return reservas;
+        }
+
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(archivo));
+            String linea;
+            while((linea = br.readLine()) != null){
+                String[] datos = linea.split(",");
+                //LO DEJE ACA - LEER DATOS DEL ARCHIVO 
+            }
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+
+    }
+
 
     public void cargarPago(){
         Scanner scanner = new Scanner(System.in);

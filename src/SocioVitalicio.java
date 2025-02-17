@@ -1,11 +1,10 @@
 /* Clase para socios vitalicios, estos no pagan cuota y tienen beneficios para reservar instalaciones */
 
 public class SocioVitalicio extends Socio {
-    private float beneficio;
+    private float beneficio = 0.8F;
 
-    public SocioVitalicio(String nombre, String fechaInscripcion, String nroDNI, float beneficio) {
+    public SocioVitalicio(String nombre, String fechaInscripcion, String nroDNI) {
         super(nombre, fechaInscripcion, nroDNI);
-        this.beneficio = beneficio;
     }
 
     public float calcularCuota() {

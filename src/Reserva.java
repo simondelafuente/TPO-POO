@@ -27,7 +27,7 @@ public class Reserva {
         //si el socio es vitalicio tiene un descuento en su reserva
         if (socio instanceof SocioVitalicio) {
             SocioVitalicio socioVitalicio = (SocioVitalicio) socio;
-            double descuento = precioTotal * (socioVitalicio.getBeneficio() / 100);
+            double descuento = precioTotal * (socioVitalicio.getBeneficio());
             precioTotal -= descuento;
         }
         return precioTotal;
