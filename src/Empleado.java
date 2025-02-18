@@ -192,27 +192,7 @@ public class Empleado {
         }
     }
 
-    public List<Reserva> cargarReservaDesdeArchivos throws IOException{
-        List<Reserva> reservas = new ArrayList<>();
-        File archivo = new File("reservas.txt");
-
-        if (!archivo.exists()){
-            return reservas;
-        }
-
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(archivo));
-            String linea;
-            while((linea = br.readLine()) != null){
-                String[] datos = linea.split(",");
-                //LO DEJE ACA - LEER DATOS DEL ARCHIVO 
-            }
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-
-
-    }
+    
 
 
     public void cargarPago(){
