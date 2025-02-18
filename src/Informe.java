@@ -11,6 +11,7 @@ public class Informe {
         this.recaudacion = recaudacion;
     }
 
+    //Imprimir el informe
     public void mostrarInforme() {
         System.out.println("\n--- Informe del Club ---");
         System.out.println("Cantidad de nuevos socios: " + cantNuevosSocios);
