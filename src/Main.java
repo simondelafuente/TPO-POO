@@ -8,12 +8,7 @@ public class Main {
 
         // Listas de prueba para socios e instalaciones
         List<Socio> socios = empleado.cargarSociosDesdeArchivo();
-        List<Instalacion> instalaciones = new ArrayList<>();
-
-        // Agregar algunas instalaciones de prueba
-        instalaciones.add(new Instalacion("Piscina", 50, 2000));
-        instalaciones.add(new Instalacion("Gimnasio", 100, 1500));
-        instalaciones.add(new Instalacion("Cancha de fútbol 5", 10, 3000));
+        List<Instalacion> instalaciones = empleado.cargarInstalacionesDesdeArchivo();
 
         // Simulación de menú de opciones
         Scanner scanner = new Scanner(System.in);

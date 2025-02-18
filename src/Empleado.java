@@ -107,8 +107,10 @@ public class Empleado {
     }
 
 
-    public void cargarInstalacion() {
+    public void cargarInstalacion() throws IOException {
         Scanner scanner = new Scanner(System.in);
+        File archivo = new File("instalaciones.txt");
+
         System.out.println("Ingrese el nombre de la instalación: ");
         String nombre = scanner.nextLine();
         System.out.println("Ingrese la capacidad de la instalación: ");
@@ -116,8 +118,46 @@ public class Empleado {
         System.out.println("Ingrese el precio de la instalación: ");
         double precio = scanner.nextDouble();
 
-        Instalacion instalacion = new Instalacion(nombre, capacidad, precio);
-        System.out.println("Instalación creada con éxito: " + instalacion.getNombre());
+        Instalacion nuevaInstalacion = new Instalacion(nombre, capacidad, precio);
+        guardarInstalacionEnArchivo(archivo, nuevaInstalacion);
+
+        System.out.println("Instalación creada con éxito: " + nuevaInstalacion.getNombre());
+    }
+
+    private void guardarInstalacionEnArchivo(File archivo, Instalacion nuevaInstalacion) throws IOException {
+        BufferedWriter bw = new BufferedWriter(new FileWriter(archivo, true));
+
+        bw.write( nuevaInstalacion.getNombre() + "," + nuevaInstalacion.getCapacidad() + "," + nuevaInstalacion.getPrecio());
+
+        bw.newLine();
+        bw.flush();
+        bw.close();
+    }
+
+    public List<Instalacion> cargarInstalacionesDesdeArchivo() throws IOException {
+        List<Instalacion> instalaciones = new ArrayList<>();
+        File archivo = new File("instalaciones.txt");
+
+        if (!archivo.exists()) {
+            return instalaciones;
+        }
+
+        BufferedReader br = new BufferedReader(new FileReader(archivo));
+        String linea;
+        while ((linea = br.readLine()) != null) {
+            String[] datos = linea.split(",");
+
+            if (datos.length >= 5) {
+                String nombre = datos[0];
+                int capacidad = Integer.parseInt(datos[1]);
+                double precio = Double.parseDouble(datos[2]);
+                boolean disponible = Boolean.parseBoolean(datos[3]);
+
+                instalaciones.add(new Instalacion(nombre, capacidad, precio, disponible));
+            }
+        }
+        br.close();
+        return instalaciones;
     }
 
 

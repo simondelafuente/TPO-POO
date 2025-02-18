@@ -1,0 +1,3 @@
+Piscina,50,2000.0
+Gimnasio,100,1500.0
+Cancha de fútbol 5,10,3000
