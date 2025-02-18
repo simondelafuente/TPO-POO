@@ -17,6 +17,7 @@ public class Reserva {
         this.cantSocios = cantSocios;
     }
 
+    //Suma total de las instalaciones reservadas por un socio
     public double calcularPrecioTotal() {
         //En caso de tener mas de una instalacion consigo y sumo el precio de cada una
         double precioTotal = 0;

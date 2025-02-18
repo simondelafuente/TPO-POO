@@ -14,7 +14,7 @@ public class Empleado {
         this.sueldo = sueldo;
     }
 
-
+    //metodo para que el empleado cargue los datos de un nuevo socio
     public void cargarSocio() throws IOException {
         Scanner scanner = new Scanner(System.in);
         File archivo = new File("socios.txt");
@@ -56,7 +56,7 @@ public class Empleado {
         System.out.println("Socio registrado con éxito: " + nuevoSocio.getNombre());
     }
 
-
+    //guarda los datos de los socios en el archivo socios.txt
     private void guardarSocioEnArchivo(File archivo, Socio socio) throws IOException {
         BufferedWriter bw = new BufferedWriter(new FileWriter(archivo, true));
 
@@ -73,7 +73,7 @@ public class Empleado {
         bw.close();
     }
 
-
+    //lee los datos de los socios en el archivo socios.txt
     public List<Socio> cargarSociosDesdeArchivo() throws IOException {
         List<Socio> socios = new ArrayList<>();
         File archivo = new File("socios.txt");
@@ -160,7 +160,7 @@ public class Empleado {
         return instalaciones;
     }
 
-
+    //metodo para que el empleado cargue una reserva
     public void cargarReserva(List<Socio> socios, List<Instalacion> instalaciones) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Ingrese el DNI del socio: ");
@@ -211,6 +211,7 @@ public class Empleado {
         guardarReservaEnArchivo(reserva);
     }
 
+    //guarda las reservas en el archivo reservas.txt
     private void guardarReservaEnArchivo(Reserva reserva) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("reservas.txt", true))) {
             StringBuilder sb = new StringBuilder();
@@ -232,8 +233,6 @@ public class Empleado {
         }
     }
 
-    
-
 
     public void cargarPago(){
         Scanner scanner = new Scanner(System.in);
@@ -248,6 +247,7 @@ public class Empleado {
         System.out.println("Pago registrado con éxito para el socio con DNI: " + dni);
     }
 
+    //genera un informe diario
     public Informe generarInforme() throws IOException {
         int cantNuevosSocios = 0;
         List<Instalacion> instalacionesReservadas = new ArrayList<>();
@@ -294,7 +294,7 @@ public class Empleado {
                 }
             }
 
-            // Vaciar los archivos después de procesar
+            // Vacia los archivos luego de usarlos
             /*try (PrintWriter writerSocios = new PrintWriter(new FileWriter(archivoSocios));
                  PrintWriter writerReservas = new PrintWriter(new FileWriter(archivoReservas))) {
                 writerSocios.print("");
