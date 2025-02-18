@@ -8,9 +8,9 @@ public class Main {
 
         // Listas de prueba para socios e instalaciones
         List<Socio> socios = empleado.cargarSociosDesdeArchivo();
-        List<Instalacion> instalaciones = empleado.cargarInstalacionesDesdeArchivo();
+        List<Instalacion> instalaciones;
 
-        // Simulación de menú de opciones
+        // menú de opciones
         Scanner scanner = new Scanner(System.in);
         while (true) {
             System.out.println("\nSeleccione una opción:");
@@ -33,6 +33,7 @@ public class Main {
                     empleado.cargarInstalacion();
                     break;
                 case 3:
+                    instalaciones = empleado.cargarInstalacionesDesdeArchivo();
                     empleado.cargarReserva(socios, instalaciones);
                     break;
                 case 4:

@@ -147,13 +147,13 @@ public class Empleado {
         while ((linea = br.readLine()) != null) {
             String[] datos = linea.split(",");
 
-            if (datos.length >= 5) {
+            if (datos.length <= 5) {
                 String nombre = datos[0];
                 int capacidad = Integer.parseInt(datos[1]);
                 double precio = Double.parseDouble(datos[2]);
-                boolean disponible = Boolean.parseBoolean(datos[3]);
+                //boolean disponible = Boolean.parseBoolean(datos[3]);
 
-                instalaciones.add(new Instalacion(nombre, capacidad, precio, disponible));
+                instalaciones.add(new Instalacion(nombre, capacidad, precio));
             }
         }
         br.close();
@@ -174,26 +174,48 @@ public class Empleado {
         }
 
         List<Instalacion> instalacionesSeleccionadas = new ArrayList<>();
-        while (true) {
-            System.out.println("Seleccione una instalación (o escriba 'fin' para terminar):");
-            for (int i = 0; i < instalaciones.size(); i++) {
-                System.out.println((i + 1) + ". " + instalaciones.get(i).getNombre() + " - Precio: " + instalaciones.get(i).getPrecio());
+        try {
+            instalaciones = cargarInstalacionesDesdeArchivo();
+
+            if (instalaciones.isEmpty()) {
+                System.out.println("No hay instalaciones disponibles.");
+                return;
             }
-            String input = scanner.nextLine();
-            if (input.equalsIgnoreCase("fin")) {
-                break;
-            }
-            try {
-                int index = Integer.parseInt(input) - 1;
-                if (index >= 0 && index < instalaciones.size()) {
-                    instalacionesSeleccionadas.add(instalaciones.get(index));
-                } else {
-                    System.out.println("Opción inválida.");
+
+            while (true) {
+                System.out.println("Seleccione una instalación (ingrese 0 para terminar):");
+                for (int i = 0; i < instalaciones.size(); i++) {
+                    System.out.println((i + 1) + ". " + instalaciones.get(i).getNombre() + " - Precio: " + instalaciones.get(i).getPrecio());
                 }
-            } catch (NumberFormatException e) {
-                System.out.println("Entrada no válida.");
+
+                String input = scanner.nextLine();
+
+                if (input.equals("0")) {
+                    break;
+                }
+
+                try {
+                    int index = Integer.parseInt(input) - 1;
+                    if (index >= 0 && index < instalaciones.size()) {
+                        instalacionesSeleccionadas.add(instalaciones.get(index));
+                        System.out.println("Instalación agregada: " + instalaciones.get(index).getNombre());
+                    } else {
+                        System.out.println("Opción inválida.");
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Entrada no válida.");
+                }
             }
+
+            System.out.println("Instalaciones seleccionadas:");
+            for (Instalacion inst : instalacionesSeleccionadas) {
+                System.out.println(inst.getNombre() + " - Precio: " + inst.getPrecio());
+            }
+
+        } catch (IOException e) {
+            System.out.println("Error al cargar las instalaciones: " + e.getMessage());
         }
+
 
         System.out.println("Ingrese la fecha de la reserva (YYYY-MM-DD): ");
         String fecha = scanner.nextLine();
