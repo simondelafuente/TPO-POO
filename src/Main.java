@@ -8,7 +8,7 @@ public class Main {
 
         // Listas de prueba para socios e instalaciones
         List<Socio> socios = empleado.cargarSociosDesdeArchivo();
-        List<Instalacion> instalaciones;
+        List<Instalacion> instalaciones = empleado.cargarInstalacionesDesdeArchivo();
 
         // menú de opciones
         Scanner scanner = new Scanner(System.in);
@@ -27,13 +27,11 @@ public class Main {
             switch (opcion) {
                 case 1:
                     empleado.cargarSocio();
-                    socios = empleado.cargarSociosDesdeArchivo();
                     break;
                 case 2:
                     empleado.cargarInstalacion();
                     break;
                 case 3:
-                    instalaciones = empleado.cargarInstalacionesDesdeArchivo();
                     empleado.cargarReserva(socios, instalaciones);
                     break;
                 case 4:
