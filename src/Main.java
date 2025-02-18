@@ -23,7 +23,8 @@ public class Main {
             System.out.println("2 - Cargar Instalación");
             System.out.println("3 - Cargar Reserva");
             System.out.println("4 - Cargar Pago");
-            System.out.println("5 - Salir");
+            System.out.println("5 - Generar informe");
+            System.out.println("6 - Salir");
             System.out.print("Opción: ");
             int opcion = scanner.nextInt();
             scanner.nextLine();
@@ -43,6 +44,10 @@ public class Main {
                     empleado.cargarPago();
                     break;
                 case 5:
+                    Informe informe = empleado.generarInforme();
+                    informe.mostrarInforme();
+                    break;
+                case 6:
                     System.out.println("Saliendo...");
                     return;
                 default:

@@ -179,10 +179,10 @@ public class Empleado {
             sb.append(reserva.getHora()).append(",");
 
             for (Instalacion inst : reserva.getInstalaciones()) {
-                sb.append(inst.getNombre()).append(" (" ).append(inst.getPrecio()).append("),");
+                sb.append(inst.getNombre()).append(" - " ).append(inst.getPrecio()).append(",");
             }
 
-            sb.append(String.format("%.2f", reserva.calcularPrecioTotal()));
+            sb.append(String.format("%d", (long) reserva.calcularPrecioTotal()));
 
             writer.write(sb.toString());
             writer.newLine();
@@ -207,4 +207,63 @@ public class Empleado {
         Pago pago = new Pago(metodo, dni, precio);
         System.out.println("Pago registrado con éxito para el socio con DNI: " + dni);
     }
+
+    public Informe generarInforme() throws IOException {
+        int cantNuevosSocios = 0;
+        List<Instalacion> instalacionesReservadas = new ArrayList<>();
+        double recaudacionReservas = 0.0;
+        double recaudacionCuotas = 0.0;
+
+        File archivoSocios = new File("socios.txt");
+        File archivoReservas = new File("reservas.txt");
+
+        if (archivoSocios.exists() || archivoReservas.exists()) {
+            try (BufferedReader brSocios = archivoSocios.exists() ? new BufferedReader(new FileReader(archivoSocios)) : null;
+                 BufferedReader brReservas = archivoReservas.exists() ? new BufferedReader(new FileReader(archivoReservas)) : null) {
+
+                String linea;
+
+                // Procesar socios
+                if (brSocios != null) {
+                    while ((linea = brSocios.readLine()) != null) {
+                        String[] datos = linea.split(",");
+                        if (datos.length >= 5) {
+                            cantNuevosSocios++;
+                            recaudacionCuotas += Double.parseDouble(datos[4]);
+                        }
+                    }
+                }
+
+                // Procesar reservas
+                if (brReservas != null) {
+                    while ((linea = brReservas.readLine()) != null) {
+                        String[] datos = linea.split(",");
+
+                        if (datos.length >= 5) {
+                            for (int i = 3; i < datos.length - 1; i++) {
+                                String[] instalacionData = datos[i].split("-");
+                                if (instalacionData.length == 2) {
+                                    String nombre = instalacionData[0];
+                                    double precio = Double.parseDouble(instalacionData[1].replace("(", "").replace(")", ""));
+                                    instalacionesReservadas.add(new Instalacion(nombre, precio));
+                                }
+                            }
+                            recaudacionReservas += Double.parseDouble(datos[datos.length - 1]);
+                        }
+                    }
+                }
+            }
+
+            // Vaciar los archivos después de procesar
+            /*try (PrintWriter writerSocios = new PrintWriter(new FileWriter(archivoSocios));
+                 PrintWriter writerReservas = new PrintWriter(new FileWriter(archivoReservas))) {
+                writerSocios.print("");
+                writerReservas.print("");
+            }*/
+        }
+
+        double recaudacionTotal = recaudacionReservas + recaudacionCuotas;
+        return new Informe(cantNuevosSocios, instalacionesReservadas, recaudacionTotal);
+    }
 }
+

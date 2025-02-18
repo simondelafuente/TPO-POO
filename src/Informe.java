@@ -11,6 +11,16 @@ public class Informe {
         this.recaudacion = recaudacion;
     }
 
+    public void mostrarInforme() {
+        System.out.println("\n--- Informe del Club ---");
+        System.out.println("Cantidad de nuevos socios: " + cantNuevosSocios);
+        System.out.println("Recaudación total: $" + recaudacion);
+        System.out.println("Instalaciones reservadas:");
+
+        for (Instalacion inst : instalacionesReservadas) {
+            System.out.println("- " + inst.getNombre());
+        }
+    }
 
     public int getCantNuevosSocios() {
         return cantNuevosSocios;

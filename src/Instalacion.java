@@ -20,6 +20,11 @@ public class Instalacion {
         this.disponible = disponible;
     }
 
+    public Instalacion(String nombre, double capacidad) {
+        this.nombre = nombre;
+        this.capacidad = (int) capacidad;
+    }
+
     public String getNombre() {
         return nombre;
     }
