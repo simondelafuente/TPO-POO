@@ -112,7 +112,7 @@ public class Empleado {
         return socios;
     }
 
-
+    //metodo para que el empleado cargue las instalaciones nuevas
     public void cargarInstalacion() throws IOException {
         Scanner scanner = new Scanner(System.in);
         File archivo = new File("instalaciones.txt");
@@ -130,6 +130,7 @@ public class Empleado {
         System.out.println("Instalación creada con éxito: " + nuevaInstalacion.getNombre());
     }
 
+    //guarda las instalaciones nuevas en el archivo instalaciones.txt
     private void guardarInstalacionEnArchivo(File archivo, Instalacion nuevaInstalacion) throws IOException {
         BufferedWriter bw = new BufferedWriter(new FileWriter(archivo, true));
 
@@ -140,6 +141,7 @@ public class Empleado {
         bw.close();
     }
 
+    //lee las instalaciones desde el archivo instalaciones.txt
     public List<Instalacion> cargarInstalacionesDesdeArchivo() throws IOException {
         List<Instalacion> instalaciones = new ArrayList<>();
         File archivo = new File("instalaciones.txt");
