@@ -16,6 +16,7 @@ public class Empleado {
 
     //metodo para que el empleado cargue los datos de un nuevo socio
     public void cargarSocio() throws IOException {
+        float cuotaBase = 10000;
         Scanner scanner = new Scanner(System.in);
         File archivo = new File("socios.txt");
 
@@ -39,21 +40,26 @@ public class Empleado {
         if (tipoSocio == 1) {
 
             nuevoSocio = new SocioVitalicio(nombre, fechaInscripcion, nroDNI);
+            System.out.println("Monto a abonar: " + String.format("%.2f", cuotaBase));
         } else if (tipoSocio == 2) {
             System.out.println("El socio es menor? (1 - Sí, 2 - No):");
             int esMenor = scanner.nextInt();
-
-            float cuotaBase = 10000;
             float cuotaFinal = (esMenor == 1) ? cuotaBase * 0.5f : cuotaBase;
 
             nuevoSocio = new SocioComun(nombre, fechaInscripcion, nroDNI, cuotaFinal);
+            System.out.println("Monto a abonar: " + String.format("%.2f", cuotaFinal));
         } else {
             System.out.println("Opción no válida.");
             return;
         }
 
-        guardarSocioEnArchivo(archivo, nuevoSocio);
-        System.out.println("Socio registrado con éxito: " + nuevoSocio.getNombre());
+        if (cargarPago()){
+            guardarSocioEnArchivo(archivo, nuevoSocio);
+            System.out.println("Socio registrado con éxito: " + nuevoSocio.getNombre());
+        }
+        else {
+            System.out.println("Socio no registrado, por favor reintente el registro");
+        }
     }
 
     //guarda los datos de los socios en el archivo socios.txt
@@ -216,7 +222,6 @@ public class Empleado {
             System.out.println("Error al cargar las instalaciones: " + e.getMessage());
         }
 
-
         System.out.println("Ingrese la fecha de la reserva (YYYY-MM-DD): ");
         String fecha = scanner.nextLine();
         System.out.println("Ingrese la hora de la reserva (HH:MM): ");
@@ -228,9 +233,15 @@ public class Empleado {
         Reserva reserva = new Reserva(socio, instalacionesSeleccionadas, fecha, hora, 0, cantSocios);
         double precioTotal = reserva.calcularPrecioTotal();
 
-        System.out.println("Reserva creada con éxito. Precio total: " + String.format("%.2f", precioTotal));
+        System.out.println("Precio total de la reserva: " + String.format("%.2f", precioTotal));
 
-        guardarReservaEnArchivo(reserva);
+        if (cargarPago()){
+            guardarReservaEnArchivo(reserva);
+            System.out.println("Reserva guardada con éxito");
+        }
+        else {
+            System.out.println("Reserva no guardada, por favor reintente la reserva");
+        }
     }
 
     //guarda las reservas en el archivo reservas.txt
@@ -255,18 +266,61 @@ public class Empleado {
         }
     }
 
-
-    public void cargarPago(){
+    public boolean cargarPago(){
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Ingrese el método de pago: ");
-        String metodo = scanner.nextLine();
-        System.out.println("Ingrese el DNI del socio: ");
-        String dni = scanner.nextLine();
-        System.out.println("Ingrese el monto a abonar: ");
-        double precio = scanner.nextDouble();
+        String pagoValido = "";
+        while (true) {
+            System.out.println("\nSeleccione un método de pago: ");
+            System.out.println("1 - Tarjeta de Credito/Debito");
+            System.out.println("2 - Transferencia");
+            System.out.println("3 - Efectivo");
+            System.out.println("4 - Cancelar Pago");
+            System.out.print("Opción: ");
+            int opcion = scanner.nextInt();
+            scanner.nextLine();
 
-        Pago pago = new Pago(metodo, dni, precio);
-        System.out.println("Pago registrado con éxito para el socio con DNI: " + dni);
+            switch (opcion) {
+                case 1:
+                    System.out.println("Pase la tarjeta por el lector : ");
+                    System.out.println("Llegó el pago? (S/N) : ");
+                    pagoValido = scanner.nextLine();
+                        if (pagoValido.equals("S")) {
+                            return true;
+                        }
+                        else if (pagoValido.equals("N")){
+                            System.out.println("Error en el pago");
+                            return false;
+                        }
+                    break;
+                case 2:
+                    System.out.println("Por favor transfiera a CLUBEMERGENTE.MP : ");
+                    System.out.println("\nLlegó el pago? (S/N) : ");
+                    pagoValido = scanner.nextLine();
+                        if (pagoValido.equals("S")) {
+                            return true;
+                        }
+                        else if (pagoValido.equals("N")){
+                            System.out.println("Error en el pago");
+                            return false;
+                        }
+                    break;
+                case 3:
+                    System.out.println("\nRecibió el pago en efectivo? (S/N) : ");
+                    pagoValido = scanner.nextLine();
+                        if (pagoValido.equals("S")) {
+                            return true;
+                        }
+                        else if (pagoValido.equals("N")){
+                            System.out.println("Error en el pago");
+                            return false;
+                        }
+                    break;
+                case 4:
+                    return false;
+                default:
+                    System.out.println("Opción no válida.");
+            }
+        }
     }
 
     //genera un informe diario

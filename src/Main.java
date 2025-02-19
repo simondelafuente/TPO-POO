@@ -35,7 +35,7 @@ public class Main {
                     empleado.cargarReserva(socios, instalaciones);
                     break;
                 case 4:
-                    empleado.cargarPago();
+                    //empleado.cargarPago(); Codeando cargarpago en cargarReserva y cargarSocio
                     break;
                 case 5:
                     Informe informe = empleado.generarInforme();
