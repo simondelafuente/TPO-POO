@@ -295,23 +295,23 @@ public class Empleado {
                     break;
                 case 2:
                     System.out.println("Por favor transfiera a CLUBEMERGENTE.MP : ");
-                    System.out.println("\nLlegó el pago? (S/N) : ");
+                    System.out.println("\nLlegó el pago? (1 - Sí, 2 - No) : ");
                     pagoValido = scanner.nextLine();
-                        if (pagoValido.equals("S")) {
+                        if (pagoValido.equals("1")) {
                             return true;
                         }
-                        else if (pagoValido.equals("N")){
+                        else if (pagoValido.equals("2")){
                             System.out.println("Error en el pago");
                             return false;
                         }
                     break;
                 case 3:
-                    System.out.println("\nRecibió el pago en efectivo? (S/N) : ");
+                    System.out.println("\nRecibió el pago en efectivo?(1 - Sí, 2 - No): ");
                     pagoValido = scanner.nextLine();
-                        if (pagoValido.equals("S")) {
+                        if (pagoValido.equals("1")) {
                             return true;
                         }
-                        else if (pagoValido.equals("N")){
+                        else if (pagoValido.equals("2")){
                             System.out.println("Error en el pago");
                             return false;
                         }
