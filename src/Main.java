@@ -17,9 +17,8 @@ public class Main {
             System.out.println("1 - Cargar Socio");
             System.out.println("2 - Cargar Instalación");
             System.out.println("3 - Cargar Reserva");
-            System.out.println("4 - Cargar Pago");
-            System.out.println("5 - Generar informe");
-            System.out.println("6 - Salir");
+            System.out.println("4 - Generar informe");
+            System.out.println("5 - Salir");
             System.out.print("Opción: ");
             int opcion = scanner.nextInt();
             scanner.nextLine();
@@ -32,16 +31,14 @@ public class Main {
                     empleado.cargarInstalacion();
                     break;
                 case 3:
-                    empleado.cargarReserva(socios, instalaciones);
+                    List<Socio> socios1 = empleado.cargarSociosDesdeArchivo();
+                    empleado.cargarReserva(socios1, instalaciones);
                     break;
                 case 4:
-                    //empleado.cargarPago(); Codeando cargarpago en cargarReserva y cargarSocio
-                    break;
-                case 5:
                     Informe informe = empleado.generarInforme();
                     informe.mostrarInforme();
                     break;
-                case 6:
+                case 5:
                     System.out.println("Saliendo...");
                     return;
                 default:

@@ -40,7 +40,7 @@ public class Empleado {
         if (tipoSocio == 1) {
 
             nuevoSocio = new SocioVitalicio(nombre, fechaInscripcion, nroDNI);
-            System.out.println("Monto a abonar: " + String.format("%.2f", cuotaBase));
+            System.out.println("Monto a abonar: 0");
         } else if (tipoSocio == 2) {
             System.out.println("El socio es menor? (1 - Sí, 2 - No):");
             int esMenor = scanner.nextInt();
@@ -171,7 +171,6 @@ public class Empleado {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Ingrese el DNI del socio: ");
         String dni = scanner.nextLine();
-
         Socio socio = socios.stream().filter(s -> s.getNroDNI().equals(dni)).findFirst().orElse(null);
 
         if (socio == null) {
@@ -282,12 +281,12 @@ public class Empleado {
             switch (opcion) {
                 case 1:
                     System.out.println("Pase la tarjeta por el lector : ");
-                    System.out.println("Llegó el pago? (S/N) : ");
+                    System.out.println("Llegó el pago? (1 - Sí, 2 - No): ");
                     pagoValido = scanner.nextLine();
-                        if (pagoValido.equals("S")) {
+                        if (pagoValido.equals("1")) {
                             return true;
                         }
-                        else if (pagoValido.equals("N")){
+                        else if (pagoValido.equals("2")){
                             System.out.println("Error en el pago");
                             return false;
                         }
